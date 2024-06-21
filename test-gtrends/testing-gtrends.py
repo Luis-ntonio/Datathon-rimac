@@ -20,15 +20,11 @@ def get_trends(title: str):
     data = pytrends.interest_over_time() 
     data = data.reset_index() 
 
-
+    """
     fig = px.line(data, x="date", y=[title], title='Keyword Web Search Interest Over Time')
-    fig.show() 
+    fig.show() """
 
-    data.to_csv(f'{title}.csv', index=False, encoding='utf-8')
-
-    by_region = pytrends.interest_by_region(resolution='COUNTRY', inc_low_vol=True, inc_geo_code=False)
-
-    by_region.head(10) 
+    data.to_csv(f'data/{title}.csv', index=False, encoding='utf-8')
 
 if __name__ == '__main__':
     try:
