@@ -26,6 +26,10 @@ def get_trends(title: str):
 
     data.to_csv(f'{title}.csv', index=False, encoding='utf-8')
 
+    by_region = pytrends.interest_by_region(resolution='COUNTRY', inc_low_vol=True, inc_geo_code=False)
+
+    by_region.head(10) 
+
 if __name__ == '__main__':
     try:
         title = sys.argv[1]
