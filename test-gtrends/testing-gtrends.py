@@ -6,6 +6,7 @@ import pandas as pd
 import sys
 import json
 from cities import cities
+import time
 
 def trends_by_region(title: str):
     #2 Interest by Region
@@ -40,7 +41,7 @@ def trends_over_time(title: str, region: str):
 
     kw_list = [title] # list of keywords to get data 
 
-    pytrends.build_payload(kw_list, cat=0, timeframe='today 1-m', geo='PE-' + cities[region]) 
+    pytrends.build_payload(kw_list, cat=0, timeframe='today 5-y', geo='PE-' + cities[region]) 
 
     data = pytrends.interest_over_time() 
     data = data.reset_index() # reset index
@@ -65,19 +66,8 @@ def get_trends(title: str):
 
     top_queries_per_region = sorted(top_queries_per_region.items(), key=lambda x: x[0])
     top_queries_per_region = dict(top_queries_per_region)
-    with open(f'dict_top.json', 'w') as file:
+    with open(f'./data/dict_top.json', 'w') as file:
         json.dump(top_queries_per_region, file)
-    """for key, value in top_queries_per_region.items():
-        query = {}
-        for v in value:
-            for keys in top_queries_per_region.keys():
-                data = trends_over_time(v, key)
-            if v in query:
-                query[v] = [data['value']]
-            else:
-                query[v].append([data['value']])
-        with open(f'{v}.json', 'w') as file:
-            json.dump(query, file)"""
     
 
     top_queries_per_region = pd.DataFrame(top_queries_per_region)
@@ -85,7 +75,28 @@ def get_trends(title: str):
 
     #data.to_csv(f'data/{title}.csv', index=False, encoding='utf-8')
 
+def historic_per_region(dict_path):
+    with open(dict_path) as file:
+        top_queries_per_region = json.load(file)
+
+    for key, value in top_queries_per_region.items():
+        for v in value:
+            query = None
+            for keys in top_queries_per_region.keys():
+                print(keys, v[0])
+                data = trends_over_time(v[0], keys)
+                time.sleep(1)
+                if query is None:
+                    query = pd.DataFrame(data)
+                    query = query.rename({v[0]: f"{v[0]}-{keys}"}, axis=1)
+                else:
+                    query[f"{v[0]}-{keys}"] = data[v[0]] if v[0] in data.columns else 0
+            query.to_csv(f'data/{v[0]}.csv', index=False, encoding='utf-8')
+        break
+
+
 if __name__ == '__main__':
     title = sys.argv[1]
-    get_trends(title)
+    #get_trends(title)
     #print(trends_by_region("seguro de salud"))
+    historic_per_region('./data/dict_top.json')

@@ -1,9 +1,9 @@
 cities = {
-    "Lima": 'LIM',
+    "Departamento de Lima": 'LIM',
     "Tacna": 'TAC',
     "Tumbes": 'TUM',
     "Arequipa": 'ARE',
-    "Cusco": 'CUS',
+    "Cuzco": 'CUS',
     "La Libertad": 'LAL',
     "Piura": 'PIU',
     "Ica": 'ICA',
@@ -16,7 +16,7 @@ cities = {
     "Arequipa": 'ARE',
     "Ayacucho": 'AYA',
     "Cajamarca": 'CAJ',
-    "Huanuco": 'HUC',
+    "Huánuco": 'HUC',
     "Huancavelica": 'HUV',
     "Junín": 'JUN',
     "Lambayeque": 'LAM',
@@ -26,4 +26,5 @@ cities = {
     "Pasco": 'PAS',
     "San Martín": 'SAM',
     "Ucayali": 'UCA',
+    "Callao": 'CAL',
 }
